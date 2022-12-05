@@ -1,7 +1,7 @@
-import useAuth from "hooks/useAuth";
-import Login from "pages/authentication/Login";
-import { Fragment, ReactNode, useState } from "react";
-import { Navigate, useLocation } from "react-router-dom";
+// import useAuth from "hooks/useAuth";
+import Login from 'pages/authentication/Login';
+import { Fragment, ReactNode, useState } from 'react';
+import { Navigate, useLocation } from 'react-router-dom';
 
 // component props interface
 interface AuthGuardProps {
@@ -9,13 +9,13 @@ interface AuthGuardProps {
 }
 
 const AuthGuard = ({ children }: AuthGuardProps) => {
-  const { isAuthenticated } = useAuth();
+  // const { isAuthenticated } = useAuth();
   const { pathname } = useLocation();
   const [requestedLocation, setRequestedLocation] = useState<string | null>(
     null
   );
 
-  if (!isAuthenticated) {
+  if (!localStorage.getItem('authToken')) {
     if (pathname !== requestedLocation) {
       setRequestedLocation(pathname);
     }

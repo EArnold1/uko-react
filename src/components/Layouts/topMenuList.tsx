@@ -1,40 +1,40 @@
-import Icons from "icons/sidebar";
+import Icons from 'icons/sidebar';
 
 const index = [
   {
-    title: "Dashboard",
+    title: 'Users',
     Icon: Icons.DashboardIcon,
-    path: "/dashboard",
+    path: '/dashboard',
   },
+  // {
+  //   title: "User Profile",
+  //   Icon: Icons.UserProfileIcon,
+  //   path: "/dashboard/user-profile",
+  // },
   {
-    title: "User Profile",
-    Icon: Icons.UserProfileIcon,
-    path: "/dashboard/user-profile",
-  },
-  {
-    title: "User Grid",
+    title: 'User Grid',
     Icon: Icons.UserGridIcon,
-    path: "/dashboard/user-grid",
+    path: '/dashboard/user-grid',
   },
   {
-    title: "User List",
+    title: 'Transactions',
     Icon: Icons.UserManagementIcon,
-    path: "/dashboard/user-list",
+    path: '/dashboard/transactions',
   },
+  // {
+  //   title: 'Add user',
+  //   Icon: Icons.AddUserIcon,
+  //   path: '/dashboard/add-user',
+  // },
   {
-    title: "Add user",
-    Icon: Icons.AddUserIcon,
-    path: "/dashboard/add-user",
-  },
-  {
-    title: "Login",
+    title: 'Login',
     Icon: Icons.LoginIcon,
-    path: "/login",
+    path: '/login',
   },
   {
-    title: "Register",
+    title: 'Register',
     Icon: Icons.SessionsIcon,
-    path: "/Register",
+    path: '/Register',
   },
 ];
 

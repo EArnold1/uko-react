@@ -1,46 +1,33 @@
-import { Box, Button, styled } from "@mui/material";
-import FlexBox from "components/FlexBox";
-import SearchInput from "components/SearchInput";
-import UserListColumnShape from "components/userManagement/columnShape";
-import CustomTable from "components/userManagement/CustomTable";
-import { userListFakeData } from "components/userManagement/fakeData";
-import useTitle from "hooks/useTitle";
-import { FC } from "react";
-import { useNavigate } from "react-router-dom";
-
-// styled component
-const StyledFlexBox = styled(FlexBox)(({ theme }) => ({
-  justifyContent: "space-between",
-  alignItems: "center",
-  flexWrap: "wrap",
-  marginBottom: 20,
-  [theme.breakpoints.down(500)]: {
-    width: "100%",
-    "& .MuiInputBase-root": { maxWidth: "100%" },
-    "& .MuiButton-root": {
-      width: "100%",
-      marginTop: 15,
-    },
-  },
-}));
+import { useQuery } from '@apollo/client';
+import { Box } from '@mui/material';
+import TrxTable from 'components/Layouts/TrxTable';
+import useTitle from 'hooks/useTitle';
+import { GET_TRANSACTIONS } from 'query/transactions';
+import { FC, useEffect, useState } from 'react';
+import { TransactionModel } from 'types';
+// import { useNavigate } from "react-router-dom";
 
 const UserList: FC = () => {
   // change navbar title
-  useTitle("User List");
+  useTitle('Transactions List');
 
-  const navigate = useNavigate();
-  const handleAddUser = () => navigate("/dashboard/add-user");
+  const { loading, error, data } = useQuery(GET_TRANSACTIONS);
+
+  const [trxList, setTrxList] = useState<TransactionModel[]>([]);
+
+  useEffect(() => {
+    if (data) {
+      setTrxList(data.adminGetTransactions);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    console.log(error);
+  }, [error]);
 
   return (
     <Box pt={2} pb={4}>
-      <StyledFlexBox>
-        <SearchInput placeholder="Search user..." />
-        <Button variant="contained" onClick={handleAddUser}>
-          Add New User
-        </Button>
-      </StyledFlexBox>
-
-      <CustomTable columnShape={UserListColumnShape} data={userListFakeData} />
+      <TrxTable data={trxList} />
     </Box>
   );
 };

@@ -1,9 +1,9 @@
-import AuthGuard from "components/authentication/AuthGuard";
-import GuestGuard from "components/authentication/GuestGuard";
-import DashboardLayout from "components/Layouts/DashboardLayout";
-import LoadingScreen from "components/LoadingScreen";
-import { FC, lazy, LazyExoticComponent, Suspense } from "react";
-import { Navigate } from "react-router-dom";
+import AuthGuard from 'components/authentication/AuthGuard';
+import GuestGuard from 'components/authentication/GuestGuard';
+import DashboardLayout from 'components/Layouts/DashboardLayout';
+import LoadingScreen from 'components/LoadingScreen';
+import { FC, lazy, LazyExoticComponent, Suspense } from 'react';
+import { Navigate } from 'react-router-dom';
 
 const Loadable = (Component: LazyExoticComponent<FC>) => (props: any) =>
   (
@@ -13,42 +13,42 @@ const Loadable = (Component: LazyExoticComponent<FC>) => (props: any) =>
   );
 
 // authentication pages
-const Login = Loadable(lazy(() => import("./pages/authentication/Login")));
+const Login = Loadable(lazy(() => import('./pages/authentication/Login')));
 const Register = Loadable(
-  lazy(() => import("./pages/authentication/Register"))
+  lazy(() => import('./pages/authentication/Register'))
 );
 const ForgetPassword = Loadable(
-  lazy(() => import("./pages/authentication/ForgetPassword"))
+  lazy(() => import('./pages/authentication/ForgetPassword'))
 );
 
 // Dashboard pages
-const DashboardSaaS = Loadable(lazy(() => import("./pages/dashboards/SaaS")));
+const DashboardSaaS = Loadable(lazy(() => import('./pages/dashboards/SaaS')));
 
 // user profile
-const UserProfile = Loadable(lazy(() => import("./pages/UserProfile")));
+const UserProfile = Loadable(lazy(() => import('./pages/UserProfile')));
 
 // user management
 const UserList = Loadable(
-  lazy(() => import("./pages/userManagement/UserList"))
+  lazy(() => import('./pages/userManagement/UserList'))
 );
 const UserGrid = Loadable(
-  lazy(() => import("./pages/userManagement/UserGrid"))
+  lazy(() => import('./pages/userManagement/UserGrid'))
 );
 const AddNewUser = Loadable(
-  lazy(() => import("./pages/userManagement/AddNewUser"))
+  lazy(() => import('./pages/userManagement/AddNewUser'))
 );
 
 // error
-const Error = Loadable(lazy(() => import("./pages/404")));
+const Error = Loadable(lazy(() => import('./pages/404')));
 
 // routes
 const routes = [
   {
-    path: "/",
+    path: '/',
     element: <Navigate to="dashboard" />,
   },
   {
-    path: "login",
+    path: 'login',
     element: (
       <GuestGuard>
         <Login />
@@ -56,7 +56,7 @@ const routes = [
     ),
   },
   {
-    path: "register",
+    path: 'register',
     element: (
       <GuestGuard>
         <Register />
@@ -64,7 +64,7 @@ const routes = [
     ),
   },
   {
-    path: "forget-password",
+    path: 'forget-password',
     element: (
       <GuestGuard>
         <ForgetPassword />
@@ -72,7 +72,7 @@ const routes = [
     ),
   },
   {
-    path: "dashboard",
+    path: 'dashboard',
     element: (
       <AuthGuard>
         <DashboardLayout />
@@ -80,30 +80,30 @@ const routes = [
     ),
     children: [
       {
-        path: "",
+        path: '',
         element: <DashboardSaaS />,
       },
       {
-        path: "user-profile",
+        path: 'user/:id',
         element: <UserProfile />,
       },
 
       {
-        path: "user-list",
+        path: 'transactions',
         element: <UserList />,
       },
       {
-        path: "user-grid",
+        path: 'user-grid',
         element: <UserGrid />,
       },
       {
-        path: "add-user",
+        path: 'add-user',
         element: <AddNewUser />,
       },
     ],
   },
   {
-    path: "*",
+    path: '*',
     element: <Error />,
   },
 ];
