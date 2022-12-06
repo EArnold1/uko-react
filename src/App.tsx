@@ -15,7 +15,7 @@ import { ukoTheme } from './theme';
 
 const httpLink = createHttpLink({
   // uri: process.env.REACT_APP_URI,
-  uri: process.env.HOST,
+  uri: process.env.REACT_APP_SERVER_URL,
 });
 
 const authLink = setContext((_, { headers }) => {
