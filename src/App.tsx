@@ -15,7 +15,7 @@ import { ukoTheme } from './theme';
 
 const httpLink = createHttpLink({
   // uri: process.env.REACT_APP_URI,
-  uri: 'http://localhost:5000/graphql',
+  uri: process.env.HOST,
 });
 
 const authLink = setContext((_, { headers }) => {
