@@ -10,8 +10,9 @@ import useAuth from 'hooks/useAuth';
 import useTitle from 'hooks/useTitle';
 import moment from 'moment';
 import { GET_USER } from 'query/users';
-import { FC, SyntheticEvent, useEffect, useState } from 'react';
+import { FC, SyntheticEvent, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import AddNewUser from './userManagement/AddNewUser';
 
 // styled components
 const StyledCard = styled(Card)(() => ({
@@ -64,23 +65,21 @@ const UserProfile: FC = () => {
 
   const { id } = useParams();
 
-  const { loading, data, error } = useQuery(GET_USER, {
+  const { loading, data, error, refetch } = useQuery(GET_USER, {
     variables: {
       id,
     },
   });
+
+  const refetchDetails = () => {
+    refetch();
+  };
 
   // const navigate = useNavigate();
 
   // const navigateUser = (id: string) => {
   //   navigate(`/dashboard/user/${id}`);
   // };
-
-  useEffect(() => {
-    if (data) {
-      console.log(data);
-    }
-  }, [data]);
 
   return (
     <Box pt={2} pb={4}>
@@ -126,6 +125,7 @@ const UserProfile: FC = () => {
                 <StyledTabList onChange={handleChange}>
                   <StyledTab label="Profile" value="1" />
                   <StyledTab label="Transactions" value="2" />
+                  <StyledTab label="Update" value="3" />
                 </StyledTabList>
               </FlexBox>
             </StyledCard>
@@ -139,8 +139,18 @@ const UserProfile: FC = () => {
                 {data.adminGetUser.transactions.length === 0 ? (
                   <H3>No Transaction yet</H3>
                 ) : (
-                  <TrxTable data={data.adminGetUser.transactions} />
+                  <TrxTable
+                    data={data.adminGetUser.transactions}
+                    refetchDetails={refetchDetails}
+                  />
                 )}
+              </StyledTabPanel>
+
+              <StyledTabPanel value="3">
+                <AddNewUser
+                  data={data.adminGetUser}
+                  refetchDetails={refetchDetails}
+                />
               </StyledTabPanel>
             </Box>
           </TabContext>

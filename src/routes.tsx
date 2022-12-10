@@ -34,9 +34,6 @@ const UserList = Loadable(
 const UserGrid = Loadable(
   lazy(() => import('./pages/userManagement/UserGrid'))
 );
-const AddNewUser = Loadable(
-  lazy(() => import('./pages/userManagement/AddNewUser'))
-);
 
 // error
 const Error = Loadable(lazy(() => import('./pages/404')));
@@ -95,10 +92,6 @@ const routes = [
       {
         path: 'user-grid',
         element: <UserGrid />,
-      },
-      {
-        path: 'add-user',
-        element: <AddNewUser />,
       },
     ],
   },

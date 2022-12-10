@@ -18,6 +18,8 @@ export interface TransactionModel {
   date: Date;
   status: TransactionStatus;
   id: string;
+  cashReceived?: string;
+  coinReceived?: string;
 }
 
 export interface UserModel {

@@ -78,6 +78,7 @@ const Users: FC<Props> = ({ usersList }) => {
             sx={{ borderBottom: '1.5px solid', borderColor: 'divider' }}
           >
             <TableRow>
+              <HeadTableCell>S/N</HeadTableCell>
               <HeadTableCell>Name</HeadTableCell>
               <HeadTableCell>Email</HeadTableCell>
               <HeadTableCell>Phone Number</HeadTableCell>
@@ -94,6 +95,7 @@ const Users: FC<Props> = ({ usersList }) => {
                   cursor: 'pointer',
                 }}
               >
+                <BodyTableCell>{index + 1}</BodyTableCell>
                 <BodyTableCell>{item.name}</BodyTableCell>
                 <BodyTableCell>
                   <Box display="flex" alignItems="center">

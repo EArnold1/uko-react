@@ -1,266 +1,153 @@
-import { PhotoCamera } from "@mui/icons-material";
-import {
-  alpha,
-  Box,
-  Button,
-  Card,
-  Grid,
-  IconButton,
-  styled,
-  Switch,
-} from "@mui/material";
-import LightTextField from "components/LightTextField";
-import { Small, Tiny } from "components/Typography";
-import { useFormik } from "formik";
-import useTitle from "hooks/useTitle";
-import { FC } from "react";
-import * as Yup from "yup";
+import { useMutation } from '@apollo/client';
+import { LoadingButton } from '@mui/lab';
+import { Box, Button, Card, FormHelperText, Grid } from '@mui/material';
+import LightTextField from 'components/LightTextField';
+import { useFormik } from 'formik';
+import useTitle from 'hooks/useTitle';
+import { UPDATE_USER } from 'mutations/userMutation';
+import { FC, useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+import * as Yup from 'yup';
 
-// styled components
-const ButtonWrapper = styled(Box)(({ theme }) => ({
-  width: 100,
-  height: 100,
-  display: "flex",
-  borderRadius: "50%",
-  alignItems: "center",
-  justifyContent: "center",
-  backgroundColor:
-    theme.palette.mode === "light"
-      ? theme.palette.secondary[200]
-      : alpha(theme.palette.primary[100], 0.1),
-}));
+interface UserUpdateModel {
+  _id: string;
+  name: string;
+  email: string;
+  phoneNumber: string;
+  password: string;
+}
 
-const UploadButton = styled(Box)(({ theme }) => ({
-  width: 50,
-  height: 50,
-  display: "flex",
-  borderRadius: "50%",
-  border: "2px solid",
-  alignItems: "center",
-  justifyContent: "center",
-  borderColor: theme.palette.background.paper,
-  backgroundColor:
-    theme.palette.mode === "light"
-      ? theme.palette.secondary[400]
-      : alpha(theme.palette.background.paper, 0.9),
-}));
+interface Props {
+  data: UserUpdateModel;
+  refetchDetails: () => void;
+}
 
-const SwitchWrapper = styled(Box)(() => ({
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  width: "100%",
-  marginTop: 10,
-}));
-
-const AddNewUser: FC = () => {
+const AddNewUser: FC<Props> = ({ data, refetchDetails }) => {
   // change navbar title
-  useTitle("Add New User");
+  useTitle('Update User');
 
-  const initialValues = {
-    fullName: "",
-    email: "",
-    phone: "",
-    country: "",
-    state: "",
-    city: "",
-    address: "",
-    zip: "",
-    about: "",
-  };
+  const [errorState, setErrorState] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const [adminEditUser, resData] = useMutation(UPDATE_USER);
 
   const validationSchema = Yup.object().shape({
-    fullName: Yup.string().required("Name is Required!"),
-    email: Yup.string().email().required("Email is Required!"),
-    phone: Yup.number().min(8).required("Phone is Required!"),
-    country: Yup.string().required("Country is Required!"),
-    state: Yup.string().required("State is Required!"),
-    city: Yup.string().required("City is Required!"),
-    address: Yup.string().required("Address is Required!"),
-    zip: Yup.string().required("Zip is Required!"),
-    about: Yup.string().required("About is Required!"),
+    name: Yup.string().required('Name is Required!'),
+    email: Yup.string().email().required('Email is Required!'),
+    phoneNumber: Yup.number().min(11).required('Phone is Required!'),
+    password: Yup.string().min(11),
   });
 
   const { values, errors, handleChange, handleSubmit, touched } = useFormik({
-    initialValues,
+    initialValues: {
+      name: data.name,
+      email: data.email,
+      phoneNumber: data.phoneNumber,
+      password: '',
+    },
     validationSchema,
-    onSubmit: () => {},
+    onSubmit: (values) => {
+      setLoading(true);
+      adminEditUser({
+        variables: {
+          email: values.email,
+          password: values.password,
+          name: values.name,
+          phoneNumber: values.phoneNumber,
+          id: data._id,
+        },
+      });
+    },
   });
+
+  useEffect(() => {
+    if (resData.data) {
+      setLoading(false);
+      toast.success('Update successful');
+      refetchDetails();
+      resData.reset();
+    }
+    //eslint-disable-next-line
+  }, [resData.data]);
+
+  useEffect(() => {
+    if (resData.error) {
+      setErrorState(resData.error.message);
+      setLoading(false);
+      resData.reset();
+    }
+    //eslint-disable-next-line
+  }, [resData.error]);
 
   return (
     <Box pt={2} pb={4}>
-      <Card sx={{ padding: 4 }}>
-        <Grid container spacing={3}>
-          <Grid item md={4} xs={12}>
-            <Card
-              sx={{
-                padding: 3,
-                boxShadow: 2,
-                minHeight: 400,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <ButtonWrapper>
-                <UploadButton>
-                  <label htmlFor="upload-btn">
-                    <input
-                      accept="image/*"
-                      id="upload-btn"
-                      type="file"
-                      style={{ display: "none" }}
-                    />
-                    <IconButton component="span">
-                      <PhotoCamera sx={{ fontSize: 26, color: "white" }} />
-                    </IconButton>
-                  </label>
-                </UploadButton>
-              </ButtonWrapper>
+      {errorState && (
+        <FormHelperText
+          error
+          sx={{
+            mt: 2,
+            fontSize: 13,
+            fontWeight: 500,
+            textAlign: 'center',
+          }}
+        >
+          {errorState}
+        </FormHelperText>
+      )}
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <Card sx={{ padding: 3 }}>
+            <form onSubmit={handleSubmit}>
+              <Grid container spacing={3}>
+                <Grid item sm={6} xs={12}>
+                  <LightTextField
+                    fullWidth
+                    name="name"
+                    placeholder="Full Name"
+                    value={values.name}
+                    onChange={handleChange}
+                    error={Boolean(touched.name && errors.name)}
+                    helperText={touched.name && errors.name}
+                  />
+                </Grid>
 
-              <Small
-                marginTop={2}
-                maxWidth={200}
-                lineHeight={1.9}
-                display="block"
-                textAlign="center"
-                color="text.disabled"
-              >
-                Allowed *.jpeg, *.jpg, *.png, *.gif max size of 3.1 MB
-              </Small>
+                <Grid item sm={6} xs={12}>
+                  <LightTextField
+                    fullWidth
+                    name="email"
+                    placeholder="Email Address"
+                    value={values.email}
+                    onChange={handleChange}
+                    error={Boolean(touched.email && errors.email)}
+                    helperText={touched.email && errors.email}
+                  />
+                </Grid>
 
-              <Box maxWidth={250} marginTop={5} marginBottom={1}>
-                <SwitchWrapper>
-                  <Small display="block" fontWeight={600}>
-                    Public Profile
-                  </Small>
-                  <Switch defaultChecked />
-                </SwitchWrapper>
+                <Grid item sm={6} xs={12}>
+                  <LightTextField
+                    fullWidth
+                    name="phoneNumber"
+                    placeholder="Phone Number"
+                    value={values.phoneNumber}
+                    onChange={handleChange}
+                    error={Boolean(touched.phoneNumber && errors.phoneNumber)}
+                    helperText={touched.phoneNumber && errors.phoneNumber}
+                  />
+                </Grid>
 
-                <SwitchWrapper>
-                  <Small display="block" fontWeight={600}>
-                    Banned
-                  </Small>
-                  <Switch defaultChecked />
-                </SwitchWrapper>
-                <Tiny display="block" color="text.disabled" fontWeight={500}>
-                  Apply disable account
-                </Tiny>
+                <Grid item sm={6} xs={12}>
+                  <LightTextField
+                    fullWidth
+                    name="password"
+                    placeholder="Password"
+                    value={values.password}
+                    onChange={handleChange}
+                    error={Boolean(touched.password && errors.password)}
+                    helperText={touched.password && errors.password}
+                  />
+                </Grid>
 
-                <SwitchWrapper>
-                  <Small display="block" fontWeight={600}>
-                    Email Verified
-                  </Small>
-                  <Switch defaultChecked />
-                </SwitchWrapper>
-                <Tiny display="block" color="text.disabled" fontWeight={500}>
-                  Disabling this will automatically send the user a verification
-                  email
-                </Tiny>
-              </Box>
-            </Card>
-          </Grid>
-          <Grid item md={8} xs={12}>
-            <Card sx={{ padding: 3, boxShadow: 2 }}>
-              <form onSubmit={handleSubmit}>
-                <Grid container spacing={3}>
-                  <Grid item sm={6} xs={12}>
-                    <LightTextField
-                      fullWidth
-                      name="fullName"
-                      placeholder="Full Name"
-                      value={values.fullName}
-                      onChange={handleChange}
-                      error={Boolean(touched.fullName && errors.fullName)}
-                      helperText={touched.fullName && errors.fullName}
-                    />
-                  </Grid>
-
-                  <Grid item sm={6} xs={12}>
-                    <LightTextField
-                      fullWidth
-                      name="email"
-                      placeholder="Email Address"
-                      value={values.email}
-                      onChange={handleChange}
-                      error={Boolean(touched.email && errors.email)}
-                      helperText={touched.email && errors.email}
-                    />
-                  </Grid>
-
-                  <Grid item sm={6} xs={12}>
-                    <LightTextField
-                      fullWidth
-                      name="phone"
-                      placeholder="Phone Number"
-                      value={values.phone}
-                      onChange={handleChange}
-                      error={Boolean(touched.phone && errors.phone)}
-                      helperText={touched.phone && errors.phone}
-                    />
-                  </Grid>
-
-                  <Grid item sm={6} xs={12}>
-                    <LightTextField
-                      fullWidth
-                      name="country"
-                      placeholder="Country"
-                      value={values.country}
-                      onChange={handleChange}
-                      error={Boolean(touched.country && errors.country)}
-                      helperText={touched.country && errors.country}
-                    />
-                  </Grid>
-
-                  <Grid item sm={6} xs={12}>
-                    <LightTextField
-                      fullWidth
-                      name="state"
-                      placeholder="State/Region"
-                      value={values.state}
-                      onChange={handleChange}
-                      error={Boolean(touched.state && errors.state)}
-                      helperText={touched.state && errors.state}
-                    />
-                  </Grid>
-
-                  <Grid item sm={6} xs={12}>
-                    <LightTextField
-                      fullWidth
-                      name="city"
-                      placeholder="City"
-                      value={values.city}
-                      onChange={handleChange}
-                      error={Boolean(touched.city && errors.city)}
-                      helperText={touched.city && errors.city}
-                    />
-                  </Grid>
-
-                  <Grid item sm={6} xs={12}>
-                    <LightTextField
-                      fullWidth
-                      name="address"
-                      placeholder="Address"
-                      value={values.address}
-                      onChange={handleChange}
-                      error={Boolean(touched.address && errors.address)}
-                      helperText={touched.address && errors.address}
-                    />
-                  </Grid>
-
-                  <Grid item sm={6} xs={12}>
-                    <LightTextField
-                      fullWidth
-                      name="zip"
-                      placeholder="Zip/Code"
-                      value={values.zip}
-                      onChange={handleChange}
-                      error={Boolean(touched.zip && errors.zip)}
-                      helperText={touched.zip && errors.zip}
-                    />
-                  </Grid>
-
-                  <Grid item xs={12}>
+                {/* <Grid item xs={12}>
                     <LightTextField
                       multiline
                       fullWidth
@@ -272,22 +159,27 @@ const AddNewUser: FC = () => {
                       error={Boolean(touched.about && errors.about)}
                       helperText={touched.about && errors.about}
                       sx={{
-                        "& .MuiOutlinedInput-root textarea": { padding: 0 },
+                        '& .MuiOutlinedInput-root textarea': { padding: 0 },
                       }}
                     />
-                  </Grid>
+                  </Grid> */}
 
-                  <Grid item xs={12}>
+                <Grid item xs={12}>
+                  {loading ? (
+                    <LoadingButton loading fullWidth variant="contained">
+                      Update User
+                    </LoadingButton>
+                  ) : (
                     <Button type="submit" variant="contained">
-                      Create User
+                      Update User
                     </Button>
-                  </Grid>
+                  )}
                 </Grid>
-              </form>
-            </Card>
-          </Grid>
+              </Grid>
+            </form>
+          </Card>
         </Grid>
-      </Card>
+      </Grid>
     </Box>
   );
 };

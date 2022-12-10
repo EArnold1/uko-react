@@ -44,6 +44,20 @@ const GET_USER = gql`
         network
         id
         date
+        user {
+          name
+          email
+          phoneNumber
+          password
+          birthDate
+          date
+          _id
+          bank {
+            bankName
+            acctName
+            acctNo
+          }
+        }
       }
     }
   }
