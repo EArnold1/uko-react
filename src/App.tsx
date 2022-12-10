@@ -14,7 +14,7 @@ import { useRoutes } from 'react-router-dom';
 import routes from './routes';
 import { ukoTheme } from './theme';
 const httpLink = createHttpLink({
-  uri: 'http://localhost:6000/graphql',
+  uri: 'http://localhost:5000/graphql',
   // uri: process.env.REACT_APP_SERVER_URL,
 });
 

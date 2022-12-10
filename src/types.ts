@@ -20,6 +20,7 @@ export interface TransactionModel {
   id: string;
   cashReceived?: string;
   coinReceived?: string;
+  trxId: string;
 }
 
 export interface UserModel {

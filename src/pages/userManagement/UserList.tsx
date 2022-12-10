@@ -26,7 +26,6 @@ const UserList: FC = () => {
   useEffect(() => {
     if (data) {
       setTrxList(data.adminGetTransactions);
-      console.log(data);
     }
   }, [data]);
 

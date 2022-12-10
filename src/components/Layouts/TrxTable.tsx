@@ -78,7 +78,6 @@ const TrxTable: FC<Props> = ({ data, refetchDetails }) => {
     setCurrentTrx(data);
   };
 
-  console.log(data);
   const trxStatusColor = (status: TransactionModel['status']) => {
     switch (status) {
       case TransactionStatus.PENDING:
@@ -179,10 +178,10 @@ const TrxTable: FC<Props> = ({ data, refetchDetails }) => {
                   <Box>{moment(item.date).format('L')}</Box>
                 </BodyTableCell>
                 <BodyTableCell>
-                  <Box>{item.type === TransactionType.SELL ? '-' : 'NaN'}</Box>
+                  <Box>{item.coinReceived ?? 'NaN'}</Box>
                 </BodyTableCell>
                 <BodyTableCell>
-                  <Box>{item.type === TransactionType.BUY ? '-' : 'NaN'}</Box>
+                  <Box>{item.cashReceived ?? 'NaN'}</Box>
                 </BodyTableCell>
               </TableRow>
             ))}

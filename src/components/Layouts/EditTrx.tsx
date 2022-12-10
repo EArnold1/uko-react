@@ -99,7 +99,7 @@ const EditTrx: FC<Props> = ({ data, refetchDetails, toggleModal }) => {
         </FormHelperText>
       )}
       <Grid container spacing={3}>
-        <Grid item md={7} xs={12}>
+        <Grid item md={4} xs={12}>
           <Card>
             <Box padding={3}>
               <H4 fontWeight={600}>User Details</H4>
@@ -124,7 +124,32 @@ const EditTrx: FC<Props> = ({ data, refetchDetails, toggleModal }) => {
             </Box>
           </Card>
         </Grid>
-        <Grid item md={5} xs={12}>
+        <Grid item md={4} xs={12}>
+          <Card>
+            <Box padding={3}>
+              <H4 fontWeight={600}>Transaction Details</H4>
+
+              <Box mt={3}>
+                <FlexBox alignItems="center" mt={1.5}>
+                  <H6 marginLeft={1}>
+                    <Small>Transaction Id:</Small> {data.trxId ?? 'NaN'}
+                  </H6>
+                </FlexBox>
+                <FlexBox alignItems="center" mt={1.5}>
+                  <H6 marginLeft={1}>
+                    <Small>Wallet</Small> {data.wallet ?? 'NaN'}
+                  </H6>
+                </FlexBox>
+                <FlexBox alignItems="center" mt={1.5}>
+                  <H6 marginLeft={1}>
+                    <Small>Current Status</Small> {data.status}
+                  </H6>
+                </FlexBox>
+              </Box>
+            </Box>
+          </Card>
+        </Grid>
+        <Grid item md={4} xs={12}>
           <Card>
             <Box padding={3}>
               <H4 fontWeight={600}>Bank Details</H4>
@@ -196,7 +221,7 @@ const EditTrx: FC<Props> = ({ data, refetchDetails, toggleModal }) => {
 
                 <Grid item xs={12}>
                   {loading ? (
-                    <LoadingButton loading fullWidth variant="contained">
+                    <LoadingButton loading variant="contained">
                       Update Transaction
                     </LoadingButton>
                   ) : (
