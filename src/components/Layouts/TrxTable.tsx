@@ -1,6 +1,9 @@
 import {
   Box,
   Button,
+  Grid,
+  MenuItem,
+  Select,
   styled,
   Table,
   TableBody,
@@ -10,7 +13,7 @@ import {
 } from '@mui/material';
 import { Small } from 'components/Typography';
 import moment from 'moment';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import ScrollBar from 'simplebar-react';
 import {
   TransactionModel,
@@ -69,6 +72,10 @@ interface Props {
 const TrxTable: FC<Props> = ({ data, refetchDetails }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [currentTrx, setCurrentTrx] = useState<TransactionModel | null>(null);
+  const [sort, setSort] = useState('ALL');
+  const [tableData, setTableData] = useState<(TransactionModel & TrxUser)[]>(
+    []
+  );
 
   const toggleModal = () => {
     setModalOpen(!modalOpen);
@@ -83,15 +90,58 @@ const TrxTable: FC<Props> = ({ data, refetchDetails }) => {
       case TransactionStatus.PENDING:
         return '#e4e4e4';
       case TransactionStatus.CONFIRMED:
-        return 'green';
+        return '#0fbd24';
       case TransactionStatus.DECLINED:
         return 'red';
       default:
         return '#e4e4e4';
     }
   };
+
+  const setSortTable = (val: string) => {
+    let res;
+    switch (val) {
+      case 'ALL':
+        return setTableData(data);
+      case 'BUY':
+        res = data.filter((trx) => trx.type === 'BUY');
+        return setTableData(res);
+      case 'SELL':
+        res = data.filter((trx) => trx.type === 'SELL');
+        return setTableData(res);
+
+      default:
+        return setTableData(data);
+    }
+  };
+
+  useEffect(() => {
+    setTableData(data);
+  }, [data]);
+
+  useEffect(() => {
+    setSortTable(sort);
+    //eslint-disable-next-line
+  }, [sort]);
+
   return (
-    <div>
+    <Grid>
+      <Grid item sm={6} xs={12} mb={10}>
+        <Select
+          labelId="Sort"
+          id="Sort"
+          name="sort"
+          value={sort}
+          label="Sort"
+          onChange={(e) => {
+            setSort(e.target.value);
+          }}
+        >
+          <MenuItem value={'ALL'}>ALL</MenuItem>
+          <MenuItem value={'SELL'}>SELL</MenuItem>
+          <MenuItem value={'BUY'}>BUY</MenuItem>
+        </Select>
+      </Grid>
       <ScrollBar>
         <Table>
           <TableHead
@@ -118,73 +168,77 @@ const TrxTable: FC<Props> = ({ data, refetchDetails }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((item: TransactionModel & TrxUser, index: number) => (
-              <TableRow
-                key={index}
-                onClick={() => {
-                  setTrxData(item);
-                  toggleModal();
-                }}
-                sx={{
-                  cursor: 'pointer',
-                }}
-              >
-                <BodyTableCell>{index + 1}</BodyTableCell>
-                <BodyTableCell>{item.user.name}</BodyTableCell>
-                <BodyTableCell>{item.user.phoneNumber}</BodyTableCell>
-                <BodyTableCell>{item.coin}</BodyTableCell>
-                <BodyTableCell>
-                  <Box display="flex" alignItems="center">
-                    <Small ml="1rem">
-                      {item.type === TransactionType.SELL ? item.amount : 'NaN'}
-                    </Small>
-                  </Box>
-                </BodyTableCell>
-                <BodyTableCell>
-                  <Box display="flex" alignItems="center">
-                    {item.type === TransactionType.BUY ? item.amount : 'NaN'}
-                  </Box>
-                </BodyTableCell>
-                <BodyTableCell>
-                  <StyledButton
-                    sx={{
-                      backgroundColor:
-                        item.type === 'BUY' ? '#0fbd24' : '#f1c232',
-                    }}
-                  >
-                    <Box>{item.type}</Box>
-                  </StyledButton>
-                </BodyTableCell>
-                <BodyTableCell>
-                  <Box>{item.network ?? 'NaN'}</Box>
-                </BodyTableCell>
-                <BodyTableCell>
-                  <Box>{item.rate}</Box>
-                </BodyTableCell>
+            {tableData.map(
+              (item: TransactionModel & TrxUser, index: number) => (
+                <TableRow
+                  key={index}
+                  onClick={() => {
+                    setTrxData(item);
+                    toggleModal();
+                  }}
+                  sx={{
+                    cursor: 'pointer',
+                  }}
+                >
+                  <BodyTableCell>{index + 1}</BodyTableCell>
+                  <BodyTableCell>{item.user.name}</BodyTableCell>
+                  <BodyTableCell>{item.user.phoneNumber}</BodyTableCell>
+                  <BodyTableCell>{item.coin}</BodyTableCell>
+                  <BodyTableCell>
+                    <Box display="flex" alignItems="center">
+                      <Small ml="1rem">
+                        {item.type === TransactionType.SELL
+                          ? item.amount
+                          : 'NaN'}
+                      </Small>
+                    </Box>
+                  </BodyTableCell>
+                  <BodyTableCell>
+                    <Box display="flex" alignItems="center">
+                      {item.type === TransactionType.BUY ? item.amount : 'NaN'}
+                    </Box>
+                  </BodyTableCell>
+                  <BodyTableCell>
+                    <StyledButton
+                      sx={{
+                        backgroundColor:
+                          item.type === 'BUY' ? '#66bff4' : '#f1c232',
+                      }}
+                    >
+                      <Box>{item.type}</Box>
+                    </StyledButton>
+                  </BodyTableCell>
+                  <BodyTableCell>
+                    <Box>{item.network ?? 'NaN'}</Box>
+                  </BodyTableCell>
+                  <BodyTableCell>
+                    <Box>{item.rate}</Box>
+                  </BodyTableCell>
 
-                <BodyTableCell>
-                  <StyledButton
-                    sx={{
-                      backgroundColor: trxStatusColor(item.status),
-                    }}
-                  >
-                    <Box>{item.status}</Box>
-                  </StyledButton>
-                </BodyTableCell>
-                <BodyTableCell>
-                  <Box>{item.wallet ?? 'NaN'}</Box>
-                </BodyTableCell>
-                <BodyTableCell>
-                  <Box>{moment(item.date).format('L')}</Box>
-                </BodyTableCell>
-                <BodyTableCell>
-                  <Box>{item.coinReceived ?? 'NaN'}</Box>
-                </BodyTableCell>
-                <BodyTableCell>
-                  <Box>{item.cashReceived ?? 'NaN'}</Box>
-                </BodyTableCell>
-              </TableRow>
-            ))}
+                  <BodyTableCell>
+                    <StyledButton
+                      sx={{
+                        backgroundColor: trxStatusColor(item.status),
+                      }}
+                    >
+                      <Box>{item.status}</Box>
+                    </StyledButton>
+                  </BodyTableCell>
+                  <BodyTableCell>
+                    <Box>{item.wallet ?? 'NaN'}</Box>
+                  </BodyTableCell>
+                  <BodyTableCell>
+                    <Box>{moment(item.date).format('L')}</Box>
+                  </BodyTableCell>
+                  <BodyTableCell>
+                    <Box>{item.coinReceived ?? 'NaN'}</Box>
+                  </BodyTableCell>
+                  <BodyTableCell>
+                    <Box>{item.cashReceived ?? 'NaN'}</Box>
+                  </BodyTableCell>
+                </TableRow>
+              )
+            )}
           </TableBody>
         </Table>
       </ScrollBar>
@@ -201,7 +255,7 @@ const TrxTable: FC<Props> = ({ data, refetchDetails }) => {
           />
         </ModalComp>
       )}
-    </div>
+    </Grid>
   );
 };
 

@@ -1,8 +1,9 @@
 import { useQuery } from '@apollo/client';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
-import { Box, Card, styled, Tab } from '@mui/material';
+import { Box, Card, Grid, styled, Tab } from '@mui/material';
 import FlexBox from 'components/FlexBox';
 import TrxTable from 'components/Layouts/TrxTable';
+import LoadingScreen from 'components/LoadingScreen';
 import { H3, Small } from 'components/Typography';
 import UkoAvatar from 'components/UkoAvatar';
 import Profile from 'components/userProfile/Profile';
@@ -10,7 +11,8 @@ import useAuth from 'hooks/useAuth';
 import useTitle from 'hooks/useTitle';
 import moment from 'moment';
 import { GET_USER } from 'query/users';
-import { FC, SyntheticEvent, useState } from 'react';
+import { FC, SyntheticEvent, useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
 import AddNewUser from './userManagement/AddNewUser';
 
@@ -75,15 +77,28 @@ const UserProfile: FC = () => {
     refetch();
   };
 
-  // const navigate = useNavigate();
+  const handleErr = (val: string) => {
+    switch (val) {
+      case 'User not found':
+      case 'Access denied':
+      case 'Invalid token':
+        return localStorage.removeItem('authToken');
+    }
+  };
 
-  // const navigateUser = (id: string) => {
-  //   navigate(`/dashboard/user/${id}`);
-  // };
+  useEffect(() => {
+    if (error?.message) {
+      handleErr(error.message);
+    }
+
+    if (error?.networkError) {
+      toast.error(error.networkError.message);
+    }
+  }, [error]);
 
   return (
     <Box pt={2} pb={4}>
-      {data && (
+      {data && !loading ? (
         <>
           <TabContext value={value}>
             <StyledCard>
@@ -155,6 +170,10 @@ const UserProfile: FC = () => {
             </Box>
           </TabContext>
         </>
+      ) : (
+        <Grid item xs={12}>
+          <LoadingScreen />
+        </Grid>
       )}
     </Box>
   );

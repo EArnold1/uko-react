@@ -79,11 +79,11 @@ const routes = [
     children: [
       {
         path: '',
-        element: <DashboardSaaS />,
+        element: <Admin />,
       },
       {
-        path: 'user-profile',
-        element: <Admin />,
+        path: 'users',
+        element: <DashboardSaaS />,
       },
       {
         path: 'user/:id',

@@ -31,9 +31,22 @@ const Admin: FC = () => {
     }
   }, [data]);
 
+  const handleErr = (val: string) => {
+    switch (val) {
+      case 'User not found':
+      case 'Access denied':
+      case 'Invalid token':
+        return localStorage.removeItem('authToken');
+    }
+  };
+
   useEffect(() => {
-    if (error) {
-      toast.error(error?.message);
+    if (error?.message) {
+      handleErr(error.message);
+    }
+
+    if (error?.networkError) {
+      toast.error(error.networkError.message);
     }
   }, [error]);
 

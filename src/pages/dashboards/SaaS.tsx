@@ -1,12 +1,13 @@
 import { useQuery } from '@apollo/client';
 import { Box, Button, Grid, styled } from '@mui/material';
-import Footer from 'components/Dashboards/saas/Footer';
 import RecentOrders from 'components/Dashboards/saas/RecentOrders';
 import FlexBox from 'components/FlexBox';
+import LoadingScreen from 'components/LoadingScreen';
 import SearchInput from 'components/SearchInput';
 import useTitle from 'hooks/useTitle';
 import { GET_USERS } from 'query/users';
 import { FC, useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 const StyledFlexBox = styled(FlexBox)(({ theme }) => ({
   justifyContent: 'space-between',
@@ -32,14 +33,28 @@ const SaaS: FC = () => {
   const [usersList, setUsersList] = useState([]);
 
   useEffect(() => {
-    console.log(data);
     if (data) {
       setUsersList(data.getAllUsers);
     }
   }, [data]);
 
+  const handleErr = (val: string) => {
+    switch (val) {
+      case 'User not found':
+      case 'Access denied':
+      case 'Invalid token':
+        return localStorage.removeItem('authToken');
+    }
+  };
+
   useEffect(() => {
-    console.log(error);
+    if (error?.message) {
+      handleErr(error.message);
+    }
+
+    if (error?.networkError) {
+      toast.error(error.networkError.message);
+    }
   }, [error]);
 
   return (
@@ -51,14 +66,15 @@ const SaaS: FC = () => {
         </StyledFlexBox>
       </Grid>
       <Grid container spacing={4} pt={4}>
-        {!loading && data && (
+        {!loading && data ? (
           <Grid item lg={12} md={7} xs={12}>
             <RecentOrders usersList={usersList} />
           </Grid>
+        ) : (
+          <Grid item xs={12}>
+            <LoadingScreen />
+          </Grid>
         )}
-        <Grid item xs={12}>
-          <Footer imageLink="/static/illustration/sass-dashboard.svg" />
-        </Grid>
       </Grid>
     </Box>
   );

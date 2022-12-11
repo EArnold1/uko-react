@@ -2,7 +2,7 @@ import Icons from 'icons/sidebar';
 
 const index = [
   {
-    title: 'Users',
+    title: 'Account',
     Icon: Icons.DashboardIcon,
     path: '/dashboard',
   },
@@ -12,9 +12,9 @@ const index = [
   //   path: "/dashboard/user-profile",
   // },
   {
-    title: 'User Grid',
+    title: 'Users',
     Icon: Icons.UserGridIcon,
-    path: '/dashboard/user-grid',
+    path: '/dashboard/users',
   },
   {
     title: 'Transactions',
@@ -26,16 +26,6 @@ const index = [
   //   Icon: Icons.AddUserIcon,
   //   path: '/dashboard/add-user',
   // },
-  {
-    title: 'Login',
-    Icon: Icons.LoginIcon,
-    path: '/login',
-  },
-  {
-    title: 'Register',
-    Icon: Icons.SessionsIcon,
-    path: '/Register',
-  },
 ];
 
 export default index;
