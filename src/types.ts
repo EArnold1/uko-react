@@ -42,6 +42,7 @@ export interface UserModel {
 export interface CoinCurrency {
   crypto: string;
   image?: string;
+  id: string;
 }
 export interface AdminDetails {
   id: string;

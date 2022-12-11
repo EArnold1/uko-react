@@ -46,4 +46,24 @@ const UPDATE_ADMIN = gql`
   }
 `;
 
-export { UPDATE_USER, UPDATE_ADMIN };
+const ADD_COIN = gql`
+  mutation AddCoinAmin($id: String!, $image: String, $crypto: String!) {
+    addCoinAdmin(id: $id, image: $image, crypto: $crypto) {
+      crypto
+      id
+      image
+    }
+  }
+`;
+
+const DELETE_COIN = gql`
+  mutation DeleteCoinAdmin($id: String!, $coinId: String!) {
+    deleteCoinAdmin(id: $id, coinId: $coinId) {
+      crypto
+      id
+      image
+    }
+  }
+`;
+
+export { UPDATE_USER, UPDATE_ADMIN, ADD_COIN, DELETE_COIN };

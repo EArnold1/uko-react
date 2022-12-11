@@ -92,7 +92,7 @@ const TrxTable: FC<Props> = ({ data, refetchDetails }) => {
       case TransactionStatus.CONFIRMED:
         return '#0fbd24';
       case TransactionStatus.DECLINED:
-        return 'red';
+        return '#ff084c';
       default:
         return '#e4e4e4';
     }

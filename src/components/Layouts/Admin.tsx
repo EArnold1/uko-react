@@ -9,14 +9,19 @@ import { FC, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { AdminDetails } from 'types';
 import EditAdmin from './AdminEdit';
+import EditCoin from './EditCoin';
 import ModalComp from './Modal';
 
 const Admin: FC = () => {
   const [details, setDetails] = useState<AdminDetails | null>(null);
   const [openModal, setOpenModal] = useState(false);
+  const [coinModal, setCoinModal] = useState(false);
 
   const toggleModal = () => {
     setOpenModal(!openModal);
+  };
+  const toggleCoinModal = () => {
+    setCoinModal(!coinModal);
   };
 
   const { loading, error, data, refetch } = useQuery(GET_ADMIN);
@@ -96,6 +101,15 @@ const Admin: FC = () => {
             </Card>
           </Grid>
           <Grid item xs={12}>
+            <Button
+              variant="contained"
+              onClick={() => setCoinModal(true)}
+              style={{
+                margin: '10px 0',
+              }}
+            >
+              Edit Coins
+            </Button>
             <Card>
               <Box padding={3}>
                 <H4 fontWeight={600}>Coins</H4>
@@ -130,6 +144,20 @@ const Admin: FC = () => {
                 refetchDetails={refetchDetails}
                 data={details}
                 toggleModal={toggleModal}
+              />
+            </ModalComp>
+          )}
+          {coinModal && (
+            <ModalComp
+              title="Update Admin"
+              toggleModal={toggleCoinModal}
+              open={coinModal}
+            >
+              <EditCoin
+                data={details.coins}
+                adminId={details.id}
+                refetchDetails={refetchDetails}
+                toggleModal={toggleCoinModal}
               />
             </ModalComp>
           )}

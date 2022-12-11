@@ -73,6 +73,8 @@ const GET_ADMIN = gql`
       rate
       coins {
         crypto
+        image
+        id
       }
       wallet
     }

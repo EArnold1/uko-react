@@ -25,6 +25,9 @@ const ModalComp: FC<Props> = ({ toggleModal, children, title, open }) => {
       onClose={toggleModal}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
+      style={{
+        overflow: 'auto',
+      }}
     >
       <div>
         {upSm && (
@@ -51,7 +54,7 @@ const ModalComp: FC<Props> = ({ toggleModal, children, title, open }) => {
           </Box>
         )}
         {downSm && (
-          <Box px={1}>
+          <Box>
             <Card
               style={{
                 padding: '5px 10px',

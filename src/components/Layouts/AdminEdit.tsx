@@ -158,11 +158,11 @@ const EditAdmin: FC<Props> = ({ data, refetchDetails, toggleModal }) => {
                 <Grid item xs={12}>
                   {loading ? (
                     <LoadingButton loading variant="contained">
-                      Update Transaction
+                      Update
                     </LoadingButton>
                   ) : (
                     <Button type="submit" variant="contained">
-                      Update Transaction
+                      Update
                     </Button>
                   )}
                 </Grid>
