@@ -22,4 +22,28 @@ const UPDATE_USER = gql`
   }
 `;
 
-export { UPDATE_USER };
+const UPDATE_ADMIN = gql`
+  mutation UpdateAdmin(
+    $wallet: String
+    $rate: Int
+    $acctName: String
+    $acctNumber: String
+    $bankName: String
+    $id: String!
+  ) {
+    updateAdmin(
+      id: $id
+      rate: $rate
+      acctName: $acctName
+      acctNumber: $acctNumber
+      bankName: $bankName
+      wallet: $wallet
+    ) {
+      rate
+      wallet
+      acctNumber
+    }
+  }
+`;
+
+export { UPDATE_USER, UPDATE_ADMIN };

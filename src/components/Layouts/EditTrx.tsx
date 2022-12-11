@@ -58,6 +58,8 @@ const EditTrx: FC<Props> = ({ data, refetchDetails, toggleModal }) => {
         variables: {
           id: data.id,
           status: values.status,
+          cashReceived: values.cashReceived,
+          coinReceived: values.coinReceived,
         },
       });
     },

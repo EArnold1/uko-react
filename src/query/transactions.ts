@@ -13,8 +13,8 @@ const GET_TRANSACTIONS = gql`
       network
       id
       date
-      # coinReceived
-      # cashReceived
+      coinReceived
+      cashReceived
       user {
         name
         email

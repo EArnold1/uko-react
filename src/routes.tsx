@@ -1,5 +1,6 @@
 import AuthGuard from 'components/authentication/AuthGuard';
 import GuestGuard from 'components/authentication/GuestGuard';
+import Admin from 'components/Layouts/Admin';
 import DashboardLayout from 'components/Layouts/DashboardLayout';
 import LoadingScreen from 'components/LoadingScreen';
 import { FC, lazy, LazyExoticComponent, Suspense } from 'react';
@@ -79,6 +80,10 @@ const routes = [
       {
         path: '',
         element: <DashboardSaaS />,
+      },
+      {
+        path: 'user-profile',
+        element: <Admin />,
       },
       {
         path: 'user/:id',

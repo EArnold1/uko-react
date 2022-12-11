@@ -63,4 +63,20 @@ const GET_USER = gql`
   }
 `;
 
-export { GET_USERS, GET_USER };
+const GET_ADMIN = gql`
+  query AdminGetDetails {
+    adminGetDetails {
+      acctName
+      acctNumber
+      bankName
+      id
+      rate
+      coins {
+        crypto
+      }
+      wallet
+    }
+  }
+`;
+
+export { GET_USERS, GET_USER, GET_ADMIN };

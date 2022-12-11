@@ -38,3 +38,17 @@ export interface UserModel {
   transaction: TransactionModel[];
   date: Date;
 }
+
+export interface CoinCurrency {
+  crypto: string;
+  image?: string;
+}
+export interface AdminDetails {
+  id: string;
+  acctName: string;
+  acctNumber: string;
+  bankName: string;
+  wallet: string;
+  rate: number;
+  coins?: CoinCurrency[];
+}
