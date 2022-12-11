@@ -4,6 +4,7 @@ import FlexBox from 'components/FlexBox';
 import LoadingScreen from 'components/LoadingScreen';
 import { H4, H6, Small } from 'components/Typography';
 import UkoAvatar from 'components/UkoAvatar';
+import useTitle from 'hooks/useTitle';
 import { GET_ADMIN } from 'query/users';
 import { FC, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -16,6 +17,8 @@ const Admin: FC = () => {
   const [details, setDetails] = useState<AdminDetails | null>(null);
   const [openModal, setOpenModal] = useState(false);
   const [coinModal, setCoinModal] = useState(false);
+
+  useTitle('Admin Profile');
 
   const toggleModal = () => {
     setOpenModal(!openModal);

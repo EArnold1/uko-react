@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Card,
   Grid,
   MenuItem,
   Select,
@@ -125,8 +126,12 @@ const TrxTable: FC<Props> = ({ data, refetchDetails }) => {
   }, [sort]);
 
   return (
-    <Grid>
-      <Grid item sm={6} xs={12} mb={10}>
+    <Card
+      style={{
+        padding: '5px 10px',
+      }}
+    >
+      <Grid item sm={6} xs={12} mb={5}>
         <Select
           labelId="Sort"
           id="Sort"
@@ -255,7 +260,7 @@ const TrxTable: FC<Props> = ({ data, refetchDetails }) => {
           />
         </ModalComp>
       )}
-    </Grid>
+    </Card>
   );
 };
 

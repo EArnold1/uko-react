@@ -5,14 +5,11 @@ import {
   Theme,
   Toolbar,
   useMediaQuery,
-} from "@mui/material";
-import { H2 } from "components/Typography";
-import { TitleContext } from "contexts/TitleContext";
-import { FC, useContext } from "react";
-import LanguagePopover from "./popovers/LanguagePopover";
-import NotificationsPopover from "./popovers/NotificationsPopover";
-import ProfilePopover from "./popovers/ProfilePopover";
-import ServicePopover from "./popovers/ServicePopover";
+} from '@mui/material';
+import { H2 } from 'components/Typography';
+import { TitleContext } from 'contexts/TitleContext';
+import { FC, useContext } from 'react';
+import ProfilePopover from './popovers/ProfilePopover';
 
 // root component interface
 interface DashboardNavBarProps {
@@ -22,27 +19,27 @@ interface DashboardNavBarProps {
 // custom styled components
 const DashboardNavbarRoot = styled(AppBar)(() => ({
   zIndex: 11,
-  boxShadow: "none",
-  paddingTop: "1rem",
-  paddingBottom: "1rem",
-  backdropFilter: "blur(6px)",
-  backgroundColor: "transparent",
+  boxShadow: 'none',
+  paddingTop: '1rem',
+  paddingBottom: '1rem',
+  backdropFilter: 'blur(6px)',
+  backgroundColor: 'transparent',
 }));
 
 const StyledToolBar = styled(Toolbar)(() => ({
-  "@media (min-width: 0px)": {
+  '@media (min-width: 0px)': {
     paddingLeft: 0,
     paddingRight: 0,
-    minHeight: "auto",
+    minHeight: 'auto',
   },
 }));
 
 const ToggleIcon = styled(Box)(({ theme }) => ({
   width: 25,
   height: 3,
-  margin: "5px",
-  borderRadius: "10px",
-  transition: "width 0.3s",
+  margin: '5px',
+  borderRadius: '10px',
+  transition: 'width 0.3s',
   backgroundColor: theme.palette.primary.main,
 }));
 
@@ -51,14 +48,13 @@ const DashboardNavbar: FC<DashboardNavBarProps> = ({
   setShowMobileSideBar,
 }) => {
   const { title } = useContext(TitleContext);
-  const upSm = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"));
-  const downSm = useMediaQuery((theme: Theme) => theme.breakpoints.down("sm"));
+  const downSm = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   if (downSm) {
     return (
       <DashboardNavbarRoot position="sticky">
         <StyledToolBar>
-          <Box sx={{ cursor: "pointer" }} onClick={setShowMobileSideBar}>
+          <Box sx={{ cursor: 'pointer' }} onClick={setShowMobileSideBar}>
             <ToggleIcon />
             <ToggleIcon />
             <ToggleIcon />
@@ -73,7 +69,6 @@ const DashboardNavbar: FC<DashboardNavBarProps> = ({
             />
           </Box>
 
-          <LanguagePopover />
           <ProfilePopover />
         </StyledToolBar>
       </DashboardNavbarRoot>
@@ -101,13 +96,6 @@ const DashboardNavbar: FC<DashboardNavBarProps> = ({
 
         <Box flexGrow={1} ml={1} />
 
-        {upSm && (
-          <>
-            <LanguagePopover />
-            <NotificationsPopover />
-            <ServicePopover />
-          </>
-        )}
         <ProfilePopover />
       </StyledToolBar>
     </DashboardNavbarRoot>

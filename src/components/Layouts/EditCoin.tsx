@@ -119,12 +119,7 @@ const EditCoin: FC<Props> = ({
               <Box padding={3}>
                 <H4 fontWeight={600}>Coins</H4>
                 <Box mt={3}>
-                  <FlexBox
-                    alignItems="center"
-                    justifyContent={'between'}
-                    mt={1.5}
-                    gap={1}
-                  >
+                  <FlexBox alignItems="center" mt={1.5} gap={1}>
                     {data.map((coin, index) => (
                       <FlexBox
                         alignItems="center"
