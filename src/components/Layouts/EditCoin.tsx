@@ -38,6 +38,7 @@ const EditCoin: FC<Props> = ({
 
   const validationSchema = Yup.object().shape({
     crypto: Yup.string().required('Name is Required!'),
+    wallet: Yup.string().required('wallet is Required!'),
     image: Yup.string(),
   });
 
@@ -45,6 +46,7 @@ const EditCoin: FC<Props> = ({
     initialValues: {
       crypto: '',
       image: '',
+      wallet: '',
     },
     validationSchema,
     onSubmit: (values) => {
@@ -181,6 +183,23 @@ const EditCoin: FC<Props> = ({
                       onChange={handleChange}
                       error={Boolean(touched.image && errors.image)}
                       helperText={touched.image && errors.image}
+                    />
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <LightTextField
+                      multiline
+                      fullWidth
+                      rows={5}
+                      name="wallet"
+                      placeholder="Wallet"
+                      value={values.wallet}
+                      onChange={handleChange}
+                      error={Boolean(touched.wallet && errors.wallet)}
+                      helperText={touched.wallet && errors.wallet}
+                      sx={{
+                        '& .MuiOutlinedInput-root textarea': { padding: 0 },
+                      }}
                     />
                   </Grid>
 

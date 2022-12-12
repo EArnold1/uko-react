@@ -75,10 +75,11 @@ const GET_ADMIN = gql`
         crypto
         image
         id
+        wallet
       }
-      wallet
     }
   }
 `;
 
 export { GET_USERS, GET_USER, GET_ADMIN };
+

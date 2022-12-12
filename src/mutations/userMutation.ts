@@ -47,11 +47,17 @@ const UPDATE_ADMIN = gql`
 `;
 
 const ADD_COIN = gql`
-  mutation AddCoinAmin($id: String!, $image: String, $crypto: String!) {
-    addCoinAdmin(id: $id, image: $image, crypto: $crypto) {
+  mutation AddCoinAmin(
+    $id: String!
+    $image: String
+    $crypto: String!
+    $wallet: String!
+  ) {
+    addCoinAdmin(id: $id, image: $image, crypto: $crypto, wallet: $wallet) {
       crypto
       id
       image
+      wallet
     }
   }
 `;

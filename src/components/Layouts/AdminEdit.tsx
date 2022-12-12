@@ -28,7 +28,6 @@ const EditAdmin: FC<Props> = ({ data, refetchDetails, toggleModal }) => {
   const validationSchema = Yup.object().shape({
     acctName: Yup.string().required('account name is Required!'),
     acctNumber: Yup.number().required('account number is Required!'),
-    wallet: Yup.string().required('wallet is Required!'),
     bankName: Yup.string().required('bank name is Required!'),
     rate: Yup.number().required('rate name is Required!'),
   });
@@ -39,7 +38,6 @@ const EditAdmin: FC<Props> = ({ data, refetchDetails, toggleModal }) => {
       acctNumber: data.acctNumber,
       bankName: data.bankName,
       rate: data.rate,
-      wallet: data.wallet,
     },
     validationSchema,
     onSubmit: (values) => {
@@ -131,18 +129,6 @@ const EditAdmin: FC<Props> = ({ data, refetchDetails, toggleModal }) => {
                     helperText={touched.bankName && errors.bankName}
                   />
                 </Grid>
-                <Grid item sm={6} xs={12}>
-                  <LightTextField
-                    fullWidth
-                    name="wallet"
-                    placeholder="Wallet"
-                    value={values.wallet}
-                    onChange={handleChange}
-                    error={Boolean(touched.wallet && errors.wallet)}
-                    helperText={touched.wallet && errors.wallet}
-                  />
-                </Grid>
-
                 <Grid item sm={6} xs={12}>
                   <LightTextField
                     fullWidth

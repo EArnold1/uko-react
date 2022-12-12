@@ -94,11 +94,6 @@ const Admin: FC = () => {
                       <Small>Rate:</Small> {details.rate}
                     </H6>
                   </FlexBox>
-                  <FlexBox alignItems="center" mt={1.5}>
-                    <H6 marginLeft={1}>
-                      <Small>Rate:</Small> {details.wallet}
-                    </H6>
-                  </FlexBox>
                 </Box>
               </Box>
             </Card>
@@ -119,7 +114,12 @@ const Admin: FC = () => {
                 <Box mt={3}>
                   <FlexBox alignItems="center" mt={1.5} gap={1}>
                     {details.coins?.map((coin, index) => (
-                      <FlexBox alignItems="center" mt={1.5} key={index}>
+                      <FlexBox
+                        alignItems="start"
+                        flexDirection={'column'}
+                        mt={1.5}
+                        key={index}
+                      >
                         <UkoAvatar
                           src={coin.image ?? ''}
                           sx={{
@@ -130,6 +130,17 @@ const Admin: FC = () => {
                           }}
                         />
                         <H6 marginLeft={1}>{coin.crypto}</H6>
+                        <H6
+                          marginLeft={1}
+                          style={{
+                            width: '250px',
+                            whiteSpace: 'nowrap',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                          }}
+                        >
+                          {coin.wallet}
+                        </H6>
                       </FlexBox>
                     ))}
                   </FlexBox>

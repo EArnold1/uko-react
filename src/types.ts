@@ -41,6 +41,7 @@ export interface UserModel {
 
 export interface CoinCurrency {
   crypto: string;
+  wallet: string;
   image?: string;
   id: string;
 }
@@ -49,7 +50,6 @@ export interface AdminDetails {
   acctName: string;
   acctNumber: string;
   bankName: string;
-  wallet: string;
   rate: number;
   coins?: CoinCurrency[];
 }
