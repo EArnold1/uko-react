@@ -13,7 +13,7 @@ import moment from 'moment';
 import { GET_USER } from 'query/users';
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import AddNewUser from './userManagement/AddNewUser';
 
 // styled components
@@ -67,6 +67,8 @@ const UserProfile: FC = () => {
 
   const { id } = useParams();
 
+  const navigate = useNavigate();
+
   const { loading, data, error, refetch } = useQuery(GET_USER, {
     variables: {
       id,
@@ -82,7 +84,8 @@ const UserProfile: FC = () => {
       case 'User not found':
       case 'Access denied':
       case 'Invalid token':
-        return localStorage.removeItem('authToken');
+        localStorage.removeItem('authToken');
+        navigate('/login');
     }
   };
 

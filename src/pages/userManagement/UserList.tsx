@@ -6,8 +6,8 @@ import useTitle from 'hooks/useTitle';
 import { GET_TRANSACTIONS } from 'query/transactions';
 import { FC, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 import { TransactionModel, UserModel } from 'types';
-// import { useNavigate } from "react-router-dom";
 
 type TrxUser = {
   user: UserModel;
@@ -25,6 +25,8 @@ const UserList: FC = () => {
 
   const [trxList, setTrxList] = useState<(TransactionModel & TrxUser)[]>([]);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (data) {
       setTrxList(data.adminGetTransactions);
@@ -36,7 +38,8 @@ const UserList: FC = () => {
       case 'User not found':
       case 'Access denied':
       case 'Invalid token':
-        return localStorage.removeItem('authToken');
+        localStorage.removeItem('authToken');
+        navigate('/login');
     }
   };
 

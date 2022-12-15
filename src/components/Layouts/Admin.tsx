@@ -8,6 +8,7 @@ import useTitle from 'hooks/useTitle';
 import { GET_ADMIN } from 'query/users';
 import { FC, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 import { AdminDetails } from 'types';
 import EditAdmin from './AdminEdit';
 import EditCoin from './EditCoin';
@@ -19,6 +20,8 @@ const Admin: FC = () => {
   const [coinModal, setCoinModal] = useState(false);
 
   useTitle('Admin Profile');
+
+  const navigate = useNavigate();
 
   const toggleModal = () => {
     setOpenModal(!openModal);
@@ -44,7 +47,8 @@ const Admin: FC = () => {
       case 'User not found':
       case 'Access denied':
       case 'Invalid token':
-        return localStorage.removeItem('authToken');
+        localStorage.removeItem('authToken');
+        navigate('/login');
     }
   };
 
