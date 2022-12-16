@@ -17,7 +17,7 @@ import useTitle from 'hooks/useTitle';
 import { UPDATE_TRX } from 'mutations/transactionMutations';
 import { FC, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { TransactionModel, UserModel } from 'types';
+import { TransactionModel, TransactionType, UserModel } from 'types';
 import * as Yup from 'yup';
 
 type TrxUser = {
@@ -196,31 +196,35 @@ const EditTrx: FC<Props> = ({ data, refetchDetails, toggleModal }) => {
                     <MenuItem value={'CONFIRMED'}>CONFIRMED</MenuItem>
                   </Select>
                 </Grid>
-
-                <Grid item sm={6} xs={12}>
-                  <LightTextField
-                    fullWidth
-                    name="coinReceived"
-                    placeholder="Coin Received"
-                    value={values.coinReceived}
-                    onChange={handleChange}
-                    error={Boolean(touched.coinReceived && errors.coinReceived)}
-                    helperText={touched.coinReceived && errors.coinReceived}
-                  />
-                </Grid>
-
-                <Grid item sm={6} xs={12}>
-                  <LightTextField
-                    fullWidth
-                    name="cashReceived"
-                    placeholder="Cash Received"
-                    value={values.cashReceived}
-                    onChange={handleChange}
-                    error={Boolean(touched.cashReceived && errors.cashReceived)}
-                    helperText={touched.cashReceived && errors.cashReceived}
-                  />
-                </Grid>
-
+                {data.type === TransactionType.BUY ? (
+                  <Grid item sm={6} xs={12}>
+                    <LightTextField
+                      fullWidth
+                      name="coinReceived"
+                      placeholder="Coin Received"
+                      value={values.coinReceived}
+                      onChange={handleChange}
+                      error={Boolean(
+                        touched.coinReceived && errors.coinReceived
+                      )}
+                      helperText={touched.coinReceived && errors.coinReceived}
+                    />
+                  </Grid>
+                ) : (
+                  <Grid item sm={6} xs={12}>
+                    <LightTextField
+                      fullWidth
+                      name="cashReceived"
+                      placeholder="Cash Received"
+                      value={values.cashReceived}
+                      onChange={handleChange}
+                      error={Boolean(
+                        touched.cashReceived && errors.cashReceived
+                      )}
+                      helperText={touched.cashReceived && errors.cashReceived}
+                    />
+                  </Grid>
+                )}
                 <Grid item xs={12}>
                   {loading ? (
                     <LoadingButton loading variant="contained">

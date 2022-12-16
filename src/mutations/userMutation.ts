@@ -24,8 +24,8 @@ const UPDATE_USER = gql`
 
 const UPDATE_ADMIN = gql`
   mutation UpdateAdmin(
-    $wallet: String
-    $rate: Int
+    $sellRate: Int
+    $buyRate: Int
     $acctName: String
     $acctNumber: String
     $bankName: String
@@ -33,14 +33,14 @@ const UPDATE_ADMIN = gql`
   ) {
     updateAdmin(
       id: $id
-      rate: $rate
+      sellRate: $sellRate
+      buyRate: $buyRate
       acctName: $acctName
       acctNumber: $acctNumber
       bankName: $bankName
-      wallet: $wallet
     ) {
-      rate
-      wallet
+      sellRate
+      buyRate
       acctNumber
     }
   }

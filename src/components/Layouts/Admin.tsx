@@ -95,7 +95,12 @@ const Admin: FC = () => {
                   </FlexBox>
                   <FlexBox alignItems="center" mt={1.5}>
                     <H6 marginLeft={1}>
-                      <Small>Rate:</Small> {details.rate}
+                      <Small>Sell Rate:</Small> {details.sellRate}
+                    </H6>
+                  </FlexBox>
+                  <FlexBox alignItems="center" mt={1.5}>
+                    <H6 marginLeft={1}>
+                      <Small>Buy Rate:</Small> {details.buyRate}
                     </H6>
                   </FlexBox>
                 </Box>

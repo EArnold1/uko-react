@@ -29,7 +29,8 @@ const EditAdmin: FC<Props> = ({ data, refetchDetails, toggleModal }) => {
     acctName: Yup.string().required('account name is Required!'),
     acctNumber: Yup.number().required('account number is Required!'),
     bankName: Yup.string().required('bank name is Required!'),
-    rate: Yup.number().required('rate name is Required!'),
+    sellRate: Yup.number().required('sell rate  is Required!'),
+    buyRate: Yup.number().required('buy rate is Required!'),
   });
 
   const { values, errors, handleChange, handleSubmit, touched } = useFormik({
@@ -37,12 +38,14 @@ const EditAdmin: FC<Props> = ({ data, refetchDetails, toggleModal }) => {
       acctName: data.acctName,
       acctNumber: data.acctNumber,
       bankName: data.bankName,
-      rate: data.rate,
+      sellRate: data.sellRate,
+      buyRate: data.buyRate,
     },
     validationSchema,
     onSubmit: (values) => {
       setLoading(true);
-      values.rate = +values.rate;
+      values.sellRate = +values.sellRate;
+      values.buyRate = +values.buyRate;
       updateAdmin({
         variables: {
           id: data.id,
@@ -132,12 +135,23 @@ const EditAdmin: FC<Props> = ({ data, refetchDetails, toggleModal }) => {
                 <Grid item sm={6} xs={12}>
                   <LightTextField
                     fullWidth
-                    name="rate"
-                    placeholder="Rate"
-                    value={values.rate}
+                    name="sellRate"
+                    placeholder="Sell rate"
+                    value={values.sellRate}
                     onChange={handleChange}
-                    error={Boolean(touched.rate && errors.rate)}
-                    helperText={touched.rate && errors.rate}
+                    error={Boolean(touched.sellRate && errors.sellRate)}
+                    helperText={touched.sellRate && errors.sellRate}
+                  />
+                </Grid>
+                <Grid item sm={6} xs={12}>
+                  <LightTextField
+                    fullWidth
+                    name="buyRate"
+                    placeholder="Buy Rate"
+                    value={values.buyRate}
+                    onChange={handleChange}
+                    error={Boolean(touched.buyRate && errors.buyRate)}
+                    helperText={touched.buyRate && errors.buyRate}
                   />
                 </Grid>
 

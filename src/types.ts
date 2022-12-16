@@ -18,8 +18,8 @@ export interface TransactionModel {
   date: Date;
   status: TransactionStatus;
   id: string;
-  cashReceived?: string;
-  coinReceived?: string;
+  cashReceived?: number;
+  coinReceived?: number;
   trxId: string;
 }
 
@@ -50,6 +50,7 @@ export interface AdminDetails {
   acctName: string;
   acctNumber: string;
   bankName: string;
-  rate: number;
+  sellRate: number;
+  buyRate: number;
   coins?: CoinCurrency[];
 }

@@ -70,7 +70,8 @@ const GET_ADMIN = gql`
       acctNumber
       bankName
       id
-      rate
+      sellRate
+      buyRate
       coins {
         crypto
         image
