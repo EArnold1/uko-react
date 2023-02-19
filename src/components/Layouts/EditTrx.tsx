@@ -8,6 +8,7 @@ import {
   Grid,
   MenuItem,
   Select,
+  styled,
 } from '@mui/material';
 import FlexBox from 'components/FlexBox';
 import LightTextField from 'components/LightTextField';
@@ -30,9 +31,22 @@ interface Props {
   toggleModal: () => void;
 }
 
+const ImageWrapper = styled(Box)(({ theme }) => ({
+  height: 200,
+  position: 'relative',
+  '&::before': {
+    content: '""',
+    width: '100%',
+    height: '100%',
+    left: 0,
+    top: 0,
+    position: 'absolute',
+  },
+}));
+
 const EditTrx: FC<Props> = ({ data, refetchDetails, toggleModal }) => {
   // change navbar title
-  useTitle('Update User');
+  useTitle('Transactions');
 
   const [errorState, setErrorState] = useState('');
   const [loading, setLoading] = useState(false);
@@ -176,6 +190,41 @@ const EditTrx: FC<Props> = ({ data, refetchDetails, toggleModal }) => {
             </Box>
           </Card>
         </Grid>
+        {data.imageUrl && (
+          <>
+            <Grid item md={4} xs={12}>
+              <Card>
+                <Box padding={3}>
+                  <ImageWrapper>
+                    <img
+                      src={data.imageUrl}
+                      alt="payment_proof"
+                      width="100%"
+                      height="100%"
+                    />
+                  </ImageWrapper>
+                </Box>
+              </Card>
+            </Grid>
+            <Grid item md={4} xs={12}>
+              <Card>
+                <Box padding={3}>
+                  <H4 fontWeight={600}>Image Url</H4>
+
+                  <Box mt={3} sx={{ color: 'blue' }}>
+                    <a
+                      href={data.imageUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Image Link
+                    </a>
+                  </Box>
+                </Box>
+              </Card>
+            </Grid>
+          </>
+        )}
         <Grid item xs={12}>
           <Card sx={{ padding: 3 }}>
             <form onSubmit={handleSubmit}>

@@ -21,6 +21,7 @@ export interface TransactionModel {
   cashReceived?: number;
   coinReceived?: number;
   trxId: string;
+  imageUrl?: string;
 }
 
 export interface UserModel {

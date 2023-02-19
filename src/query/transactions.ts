@@ -16,6 +16,7 @@ const GET_TRANSACTIONS = gql`
       coinReceived
       cashReceived
       trxId
+      imageUrl
       user {
         name
         email
