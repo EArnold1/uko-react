@@ -43,6 +43,9 @@ const GET_USER = gql`
         date
         network
         id
+        coinReceived
+        cashReceived
+        trxId
         date
         user {
           name
@@ -82,5 +85,4 @@ const GET_ADMIN = gql`
   }
 `;
 
-export { GET_USERS, GET_USER, GET_ADMIN };
-
+export { GET_ADMIN, GET_USER, GET_USERS };
